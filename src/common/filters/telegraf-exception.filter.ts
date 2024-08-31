@@ -12,6 +12,8 @@ export class TelegrafExceptionFilter implements ExceptionFilter {
       `Error ${exception.name} ${exception.message}`,
       exception.stack,
     );
-    await ctx.replyWithHTML(`<b>Error</b>: ${exception.message}`);
+    await ctx.replyWithHTML(
+      `<b>Error</b>: ${exception.message || exception.stack}`,
+    );
   }
 }
