@@ -4,6 +4,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { delay } from 'src/common/utils/common.utils';
 import { TelegramContext } from 'src/common/contexts/telegram.context';
+import { MAX_TIMEOUT_BETWEEN_GROUPS_IN_MINUTES, MAX_TIMEOUT_BETWEEN_MESSAGES_IN_MINUTES } from 'src/common/constants/common.constants';
 
 @Injectable()
 export class TelegramParserHandler {
@@ -151,7 +152,6 @@ export class TelegramParserHandler {
             type: msg.className || 'message',
             date: new Date(msg.date * 1000).toISOString(),
             date_unixtime: msg.date,
-            from: '',
             from_id: '',
             reply_to_message_id: msg.replyTo?.replyToMsgId || null,
             text: msg.message || '',
@@ -159,27 +159,14 @@ export class TelegramParserHandler {
 
           if (msg.fromId instanceof Api.PeerUser) {
             parsedMessage.from_id = msg.fromId.userId.toString();
-            const user = client.getEntity(msg.fromId.userId);
-
-            if (user instanceof Api.User) {
-              parsedMessage.from =
-                user.username ||
-                `${user.firstName} ${user.lastName || ''}`.trim();
-            } else {
-              parsedMessage.from = parsedMessage.from_id;
-            }
           } else if (msg.fromId instanceof Api.PeerChannel) {
             parsedMessage.from_id = msg.fromId.channelId.toString();
-            parsedMessage.from = entityName;
           } else if (msg.fromId instanceof Api.PeerChat) {
             parsedMessage.from_id = msg.fromId.chatId.toString();
-            parsedMessage.from = entityName;
-          } else {
-            parsedMessage.from = 'unknown';
           }
 
           if (msg.post) {
-            parsedMessage.from = `${entityName} (channel post)`;
+            parsedMessage.from_id = `${entityName} (channel post)`;
           }
 
           return JSON.stringify(parsedMessage, null, 2);
@@ -197,7 +184,9 @@ export class TelegramParserHandler {
           `Parsing progress: ${processedMessages} messages processed in ${entityName}`,
         );
 
-        const randomMinutes = Math.floor(Math.random() * 5) + 1;
+        const randomMinutes =
+          Math.floor(Math.random() * MAX_TIMEOUT_BETWEEN_MESSAGES_IN_MINUTES) +
+          1;
         const delayTime = randomMinutes * 60 * 1000;
         await delay(delayTime);
       }
@@ -239,7 +228,8 @@ export class TelegramParserHandler {
         ctx,
       });
 
-      const randomMinutes = Math.floor(Math.random() * 10) + 1;
+      const randomMinutes =
+        Math.floor(Math.random() * MAX_TIMEOUT_BETWEEN_GROUPS_IN_MINUTES) + 1;
       const delayTime = randomMinutes * 60 * 1000;
       await delay(delayTime);
     }

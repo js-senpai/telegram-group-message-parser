@@ -11,7 +11,7 @@ import { TelegrafExceptionFilter } from 'src/common/filters/telegraf-exception.f
 import { GramClientDecorator } from 'src/common/decorators/gram-client.decorator';
 import { ErrorForbiddenForBotsAction } from 'src/common/components/telegram/actions/errors/error-forbidden-bots.action';
 import { TelegramClient } from 'telegram';
-import { TelegramParserHandler } from './handlers/telegra-parser.handler';
+import { TelegramParserHandler } from './handlers/telegram-parser.handler';
 
 @Update()
 @UseFilters(TelegrafExceptionFilter)
@@ -47,7 +47,7 @@ export class TelegramUpdate {
         JSON.stringify(e?.response?.data || e.stack),
         TelegramUpdate.name,
       );
-      throw e;
+      throw e?.response?.data || e.stack;
     }
   }
 
@@ -137,7 +137,7 @@ export class TelegramUpdate {
         JSON.stringify(e?.response?.data || e.stack),
         TelegramUpdate.name,
       );
-      throw e;
+      throw e?.response?.data || e.stack;
     }
   }
 
@@ -161,7 +161,7 @@ export class TelegramUpdate {
         JSON.stringify(e?.response?.data || e.stack),
         TelegramUpdate.name,
       );
-      throw e;
+      throw e?.response?.data || e.stack;
     }
   }
 }
