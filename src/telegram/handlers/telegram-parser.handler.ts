@@ -4,7 +4,10 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { delay } from 'src/common/utils/common.utils';
 import { TelegramContext } from 'src/common/contexts/telegram.context';
-import { MAX_TIMEOUT_BETWEEN_GROUPS_IN_MINUTES, MAX_TIMEOUT_BETWEEN_MESSAGES_IN_MINUTES } from 'src/common/constants/common.constants';
+import {
+  MAX_TIMEOUT_BETWEEN_GROUPS_IN_MINUTES,
+  MAX_TIMEOUT_BETWEEN_MESSAGES_IN_MINUTES,
+} from 'src/common/constants/common.constants';
 
 @Injectable()
 export class TelegramParserHandler {
@@ -115,10 +118,8 @@ export class TelegramParserHandler {
     let offsetId = 0;
     let hasMoreMessages = true;
     let processedMessages = 0;
-
-    const fileName = `${entityName}-${new Date().toLocaleDateString(
-      'en-GB',
-    )}.json`;
+    const formattedDate = new Date().toISOString().split('T')[0];
+    const fileName = `${entityName}-${formattedDate}.json`;
     const dirPath = path.join(
       __dirname,
       '..',
