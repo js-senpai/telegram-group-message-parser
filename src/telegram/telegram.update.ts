@@ -47,7 +47,7 @@ export class TelegramUpdate {
         JSON.stringify(e?.response?.data || e.stack),
         TelegramUpdate.name,
       );
-      throw e?.response?.data || e.stack;
+      throw e;
     }
   }
 
@@ -137,7 +137,7 @@ export class TelegramUpdate {
         JSON.stringify(e?.response?.data || e.stack),
         TelegramUpdate.name,
       );
-      throw e?.response?.data || e.stack;
+      throw e;
     }
   }
 
@@ -161,7 +161,7 @@ export class TelegramUpdate {
         JSON.stringify(e?.response?.data || e.stack),
         TelegramUpdate.name,
       );
-      throw e?.response?.data || e.stack;
+      throw e;
     }
   }
 }
