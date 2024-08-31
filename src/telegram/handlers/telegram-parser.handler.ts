@@ -8,6 +8,7 @@ import {
   MAX_TIMEOUT_BETWEEN_GROUPS_IN_MINUTES,
   MAX_TIMEOUT_BETWEEN_MESSAGES_IN_MINUTES,
 } from 'src/common/constants/common.constants';
+import * as dayjs from 'dayjs';
 
 @Injectable()
 export class TelegramParserHandler {
@@ -118,8 +119,7 @@ export class TelegramParserHandler {
     let offsetId = 0;
     let hasMoreMessages = true;
     let processedMessages = 0;
-    const formattedDate = new Date().toISOString().split('T')[0];
-    const fileName = `${entityName}-${formattedDate}.json`;
+    const fileName = `${entityName}-${dayjs().format('DD.MM.YYYY')}.json`;
     const dirPath = path.join(
       __dirname,
       '..',

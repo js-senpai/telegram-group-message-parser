@@ -26,6 +26,7 @@
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
     "axios": "^1.7.5",
+    "dayjs": "^1.11.13",
     "gramjs-sqlitesession": "^1.1.1",
     "nest-winston": "^1.9.7",
     "nestjs-telegraf": "^2.8.1",
