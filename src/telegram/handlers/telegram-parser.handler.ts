@@ -5,6 +5,7 @@ import * as path from 'path';
 import { delay } from 'src/common/utils/common.utils';
 import { TelegramContext } from 'src/common/contexts/telegram.context';
 import {
+  MAX_MESSAGES_PER_REQUEST,
   MAX_TIMEOUT_BETWEEN_GROUPS_IN_MINUTES,
   MAX_TIMEOUT_BETWEEN_MESSAGES_IN_MINUTES,
 } from 'src/common/constants/common.constants';
@@ -139,7 +140,7 @@ export class TelegramParserHandler {
         const messages = await client.getMessages(entity, {
           offsetDate: dateLimitTimestamp,
           offsetId,
-          limit: 100,
+          limit: MAX_MESSAGES_PER_REQUEST,
         });
 
         if (messages.length === 0) {
